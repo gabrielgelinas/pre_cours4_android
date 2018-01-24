@@ -11,7 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Product> listProduits;
+    private ArrayList<Product> listProducts;
     private ProductAdapter adapter;
     private EditText txtName;
     private EditText txtPrice;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position!=0) {
-                    Toast.makeText(getApplicationContext(), "Vous avez clické sur: " + ((TextView) view.findViewById(R.id.name)).getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "You clicked on: " + ((TextView) view.findViewById(R.id.name)).getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
                 else {
-                    listProduits.remove(position);
+                    listProducts.remove(position);
                     adapter.notifyDataSetChanged();
                     return false;
                 }
@@ -56,19 +56,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initArrayList() {
-        listProduits = new ArrayList<>();
+        listProducts = new ArrayList<>();
 
-        listProduits.add(new Product());
-        listProduits.add(new Product("KitKat",5.10));
-        listProduits.add(new Product("Aero",5.10));
-        listProduits.add(new Product("Crunchy",5.10));
-        listProduits.add(new Product("Mr.Big",5.10));
-        listProduits.add(new Product("Reeses",5.10));
-        listProduits.add(new Product("M&M's",5.10));
+        listProducts.add(new Product());
+        listProducts.add(new Product("KitKat", 5.10));
+        listProducts.add(new Product("Aero", 5.10));
+        listProducts.add(new Product("Crunchy", 5.10));
+        listProducts.add(new Product("Mr.Big", 5.10));
+        listProducts.add(new Product("Reeses", 5.10));
+        listProducts.add(new Product("M&M's", 5.10));
     }
 
     private void initArrayAdapter() {
-        adapter = new ProductAdapter(this, R.layout.adapter_listitems, listProduits);
+        adapter = new ProductAdapter(this, R.layout.adapter_listitems, listProducts);
     }
 
     public void AddProd(View view) {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             temp = new Product(name,0.0);
         }
 
-        listProduits.add(temp);
+        listProducts.add(temp);
         adapter.notifyDataSetChanged();
     }
 }
