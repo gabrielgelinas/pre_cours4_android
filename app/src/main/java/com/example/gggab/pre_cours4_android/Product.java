@@ -1,16 +1,13 @@
 package com.example.gggab.pre_cours4_android;
 
-/**
- * Created by gggab on 2018-01-23.
- */
-
 public class Product {
     private String name;
     private Double price;
 
-    public Product(){}
+    Product() {
+    }
 
-    public Product(String name, Double price) {
+    Product(String name, Double price) {
         this.name = name;
         this.price = price;
     }
@@ -23,11 +20,7 @@ public class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    Double getPrice() {
         return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 }

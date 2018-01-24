@@ -4,16 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView list;
     private ArrayList<Product> listProduits;
     private ProductAdapter adapter;
     private EditText txtName;
@@ -22,14 +19,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ListView list;
         setContentView(R.layout.activity_main);
 
-        list = (ListView) findViewById(R.id.list_items);
+        list = findViewById(R.id.list_items);
         initArrayList();
         initArrayAdapter();
 
-        txtName = (EditText) findViewById(R.id.input_Name);
-        txtPrice = (EditText) findViewById(R.id.input_Price);
+        txtName = findViewById(R.id.input_Name);
+        txtPrice = findViewById(R.id.input_Price);
 
         list.setAdapter(adapter);
 
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initArrayList() {
-        listProduits = new ArrayList<Product>();
+        listProduits = new ArrayList<>();
 
         listProduits.add(new Product());
         listProduits.add(new Product("KitKat",5.10));
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void AddProd(View view) {
         String name = txtName.getText().toString();
         String price = txtPrice.getText().toString();
-        Product temp = null;
+        Product temp;
         try {
             temp = new Product(name,Double.parseDouble(price));
         } catch (NumberFormatException e) {
