@@ -25,8 +25,14 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         if (position!=0) {
-            String name = getItem(position).getName();
-            Double price = getItem(position).getPrice();
+            String name = null;
+            Double price = null;
+            try {
+                name = getItem(position).getName();
+                price = getItem(position).getRegularPrice();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
             LayoutInflater inflater = LayoutInflater.from(mContext);
