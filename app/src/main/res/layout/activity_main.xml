@@ -44,7 +44,8 @@
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textSize="18sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:text="test"/>
 
             <EditText
                 android:id="@+id/input_Price"
@@ -61,7 +62,8 @@
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:text="0.0"/>
         </LinearLayout>
 
 

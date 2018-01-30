@@ -1,12 +1,10 @@
 package com.example.gggab.pre_cours4_android;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Product {
     public static int cnt;
-    private int ProductId;
-    private String Name;
+    private String ProductId;
+    private String FullDisplayName;
     private String BrandName;
     private Boolean IsAgeRequired;
     private String SizeLabel;
@@ -17,18 +15,21 @@ public class Product {
     private Double RegularPrice;
     private String PromotionName;
     private Double SalesPrice;
-
+    //{'ProductId':'00000_000000004905846692','BrandName':'Diva','FullDisplayName':' Endives',
+// 'IsAgeRequired':false,'SizeLabel':'','Size':'','ProductUrl':'/en/product/endives/00000_000000004905846692',
+// 'ProductImageUrl':'https://az836796.vo.msecnd.net/media/image/product/en/medium/0004905846692.jpg',
+// 'HasNewPrice':false,'PromotionName':null,'RegularPrice':3.49000,'SalesPrice':null}"
     Product() {
         cnt++;
     }
 
     Product(String name, Double regularPrice) {
-        Name=name;
+        FullDisplayName=name;
         RegularPrice=regularPrice;
         cnt++;
     }
 
-    Product(int productId, String name, String brandName, Boolean isAgeRequired, String sizeLabel, String size, String productUrl, String productImageUrl, Boolean hasNewPrice, Double regularPrice, String promotionName, Double salesPrice) {
+    Product(String productId, String name, String brandName, Boolean isAgeRequired, String sizeLabel, String size, String productUrl, String productImageUrl, Boolean hasNewPrice, Double regularPrice, String promotionName, Double salesPrice) {
 
         setProductId(productId);
         setName(name);
@@ -40,8 +41,17 @@ public class Product {
         setProductImageUrl(productImageUrl);
         setHasNewPrice(hasNewPrice);
         setRegularPrice(regularPrice);
-        setPromotionName(promotionName);
-        setSalesPrice(salesPrice);
+        if (promotionName!=null) {
+            setPromotionName(promotionName);
+        }else {
+            setPromotionName("");
+
+        }
+        if (salesPrice!=null) {
+            setSalesPrice(salesPrice);
+        }else {
+            setSalesPrice(0.0);
+        }
         cnt++;
     }
 //{'ProductId':'00000_000000004905846692','BrandName':'Diva','FullDisplayName':' Endives',
@@ -49,38 +59,21 @@ public class Product {
 // 'ProductImageUrl':'https://az836796.vo.msecnd.net/media/image/product/en/medium/0004905846692.jpg',
 // 'HasNewPrice':false,'PromotionName':null,'RegularPrice':3.49000,'SalesPrice':null}"
 
-    public Product(String stringProd) {
-        Pattern p_productId = Pattern.compile("");
-        Matcher m_productId = p_productId.matcher(stringProd);
-        setProductId(productId);
-        setName(name);
-        setBrandName(brandName);
-        setAgeRequired(isAgeRequired);
-        setSizeLabel(sizeLabel);
-        setSize(size);
-        setProductUrl(productUrl);
-        setProductImageUrl(productImageUrl);
-        setHasNewPrice(hasNewPrice);
-        setRegularPrice(regularPrice);
-        setPromotionName(promotionName);
-        setSalesPrice(salesPrice);
 
-    }
-
-    public int getProductId() {
+    public String getProductId() {
         return ProductId;
     }
 
-    private void setProductId(int productId) {
+    private void setProductId(String productId) {
         ProductId = productId;
     }
 
     public String getName() {
-        return Name;
+        return FullDisplayName;
     }
 
     public void setName(String name) {
-        Name = name;
+        FullDisplayName = name;
     }
 
     public String getBrandName() {

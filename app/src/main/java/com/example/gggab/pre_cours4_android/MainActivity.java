@@ -1,5 +1,7 @@
 package com.example.gggab.pre_cours4_android;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,19 +10,19 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Product> listProducts;
+    public ListProducts listProducts;
     private ProductAdapter adapter;
     private EditText txtName;
     private EditText txtPrice;
@@ -33,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
         list = findViewById(R.id.list_items);
         initArrayList();
-        initArrayAdapter();
+
 
         txtName = findViewById(R.id.input_Name);
         txtPrice = findViewById(R.id.input_Price);
 
         list.setAdapter(adapter);
+
+        FetchWebData(list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,28 +59,44 @@ public class MainActivity extends AppCompatActivity {
                 if (position == 0) {
                     return false;
                 } else {
-                    listProducts.remove(position);
-                    adapter.notifyDataSetChanged();
+                    //                        URL productURL = new URL("https://www.iga.net" + listProducts.get(position).getProductUrl());
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.iga.net" + listProducts.get(position).getProductUrl()));
+
+                    startActivity(browserIntent);
+
                     return false;
                 }
             }
         });
     }
 
+    private void FetchWebData(ListView list) {
+
+        ////////////////////
+        // Test AsyncTask //
+        ////////////////////
+        try {
+//            HttpGet httpGet = new HttpGet(new URI(TEST_URL));
+            AsyncWebData task = new AsyncWebData(this,listProducts,list);
+            task.execute(listProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        AsyncWebData getData = new AsynWebData();
+
+        ////////////////////
+    }
+
     private void initArrayList() {
-        listProducts = new ArrayList<>();
+        listProducts = new ListProducts();
 
         listProducts.add(new Product());
-        listProducts.add(new Product("KitKat", 5.10));
+        listProducts.add(new Product("        KitKat", 5.10));
         listProducts.add(new Product("Aero", 5.10));
         listProducts.add(new Product("Crunchy", 5.10));
         listProducts.add(new Product("Mr.Big", 5.10));
         listProducts.add(new Product("Reeses", 5.10));
         listProducts.add(new Product("M&M's", 5.10));
-    }
-
-    private void initArrayAdapter() {
-        adapter = new ProductAdapter(this, R.layout.adapter_listitems, listProducts);
     }
 
     public void AddProd(View view) {
@@ -90,16 +110,19 @@ public class MainActivity extends AppCompatActivity {
             temp = new Product(name, 0.0);
         }
 
-        listProducts.add(temp);
-        adapter.notifyDataSetChanged();
+//        listProducts.add(temp);
+//
+//
+////        Runnable runnable = new Runnable() {
+////            @Override
+////            public void run() {
+////                ConnectToWeb();
+////            }
+////        };
+////        new Thread(runnable).start();
+//
+//        adapter.notifyDataSetChanged();
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ConnectToWeb();
-            }
-        };
-        new Thread(runnable).start();
     }
 
     private void ConnectToWeb() {
@@ -129,19 +152,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 bufferedReader.close();
 
-                Pattern pattern = Pattern.compile("<div class=\"js-product js-equalized js-addtolist-container js-ga\" data-product=\"(.+?)data-bind");
+                Pattern pattern = Pattern.compile("<div class=\"js-product js-equalized js-addtolist-container js-ga\" data-product=\"(.+?)" + "\"");
                 Matcher matcher = pattern.matcher(stringBuffer);
                 int cnt = 0;
 
                 while (matcher.find()) {
+                    Gson gson = new Gson();
+                    Product product = gson.fromJson(new JsonParser().parse(matcher.group(1)).getAsJsonObject(), Product.class);
 
-                    Product temp = new Product(matcher.group(1));
-
-                    Pattern patID = Pattern.compile("ProductId':'(.+?)'");
-                    Matcher matcherID = patID.matcher(matcher.group(1));
-                    while (matcherID.find()) {
-                        System.out.println(matcherID.group(1));
-                    }
+                    listProducts.add(product);
                     cnt++;
                 }
 
