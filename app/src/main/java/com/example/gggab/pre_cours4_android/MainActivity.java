@@ -1,7 +1,7 @@
 package com.example.gggab.pre_cours4_android;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -132,14 +132,21 @@ public class MainActivity extends AppCompatActivity {
                 Pattern pattern = Pattern.compile("<div class=\"js-product js-equalized js-addtolist-container js-ga\" data-product=\"(.+?)data-bind");
                 Matcher matcher = pattern.matcher(stringBuffer);
                 int cnt = 0;
+
                 while (matcher.find()) {
-                    System.out.println(matcher.group(1));
+
+                    Product temp = new Product(matcher.group(1));
+
+                    Pattern patID = Pattern.compile("ProductId':'(.+?)'");
+                    Matcher matcherID = patID.matcher(matcher.group(1));
+                    while (matcherID.find()) {
+                        System.out.println(matcherID.group(1));
+                    }
                     cnt++;
                 }
 
                 System.out.println("job done with " + cnt + " products...........................................");
                 //                System.out.println(stringBuffer.toString());
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -147,7 +154,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-
     }
 }

@@ -15,6 +15,7 @@ class URLBuilder {
         this.suffix = suffix;
     }
 
+
     String getURL(){
         return this.prefix+this.page+this.suffix;
     }

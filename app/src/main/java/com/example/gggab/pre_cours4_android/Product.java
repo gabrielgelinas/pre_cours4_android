@@ -1,5 +1,8 @@
 package com.example.gggab.pre_cours4_android;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Product {
     public static int cnt;
     private int ProductId;
@@ -40,6 +43,28 @@ public class Product {
         setPromotionName(promotionName);
         setSalesPrice(salesPrice);
         cnt++;
+    }
+//{'ProductId':'00000_000000004905846692','BrandName':'Diva','FullDisplayName':' Endives',
+// 'IsAgeRequired':false,'SizeLabel':'','Size':'','ProductUrl':'/en/product/endives/00000_000000004905846692',
+// 'ProductImageUrl':'https://az836796.vo.msecnd.net/media/image/product/en/medium/0004905846692.jpg',
+// 'HasNewPrice':false,'PromotionName':null,'RegularPrice':3.49000,'SalesPrice':null}"
+
+    public Product(String stringProd) {
+        Pattern p_productId = Pattern.compile("");
+        Matcher m_productId = p_productId.matcher(stringProd);
+        setProductId(productId);
+        setName(name);
+        setBrandName(brandName);
+        setAgeRequired(isAgeRequired);
+        setSizeLabel(sizeLabel);
+        setSize(size);
+        setProductUrl(productUrl);
+        setProductImageUrl(productImageUrl);
+        setHasNewPrice(hasNewPrice);
+        setRegularPrice(regularPrice);
+        setPromotionName(promotionName);
+        setSalesPrice(salesPrice);
+
     }
 
     public int getProductId() {
