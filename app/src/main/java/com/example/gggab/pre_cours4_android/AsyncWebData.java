@@ -1,6 +1,5 @@
 package com.example.gggab.pre_cours4_android;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -18,16 +17,13 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by gggab(Zombietux) on 2018-01-30.
- */
-
 class AsyncWebData extends AsyncTask<ListProducts, String, ListProducts[]> {
     private Context mContext;
     private ProgressDialog progress;
     private ListProducts p_List;
     private ListView mListView;
     private ProductAdapter adapter;
+    private ProductWebData productWebData;
 
     AsyncWebData(Context context, ListProducts list, ListView listView) {
         mContext = context;
@@ -54,69 +50,78 @@ class AsyncWebData extends AsyncTask<ListProducts, String, ListProducts[]> {
         return params;
     }
 
-    private ListProducts ConnectToWebsite(ListProducts listProducts) {
+    private ListProducts ConnectToWebsite(ListProducts listProducts) throws IOException {
         int page = 1;
-        int maxpage = 0;
+        int maxpage = 1;
 
-        for (int i = 0; i <= maxpage; i++) {
-            URLBuilder url = new URLBuilder(page, "https://www.iga.net/en/search?page=", "&pageSize=60");
 
-            try {
-                URL obj = new URL(url.getURL());
+        for (int i = 1; i <= maxpage; i++) {
+            URLBuilder url = new URLBuilder(i, "https://www.iga.net/en/search?page=", "&pageSize=60");
+            if (maxpage == 1) {
+                maxpage = GetMaxPages(url);
 
-                try {
-                    HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
-                    connection.setRequestMethod("GET");
-                    int response = connection.getResponseCode();
-
-                    BufferedReader bufferedReader = new BufferedReader(
-                            new InputStreamReader(connection.getInputStream())
-                    );
-
-                    String inputLine;
-                    StringBuffer stringBuffer = new StringBuffer();
-
-                    while ((inputLine = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(inputLine).append("\n");
-                    }
-                    bufferedReader.close();
-
-                    // Get max pages
-                    if (maxpage==0) {
-                        Pattern mPattern = Pattern.compile("<p>\\n\\s*(.+?)\\s+?match");
-                        Matcher mMatcher = mPattern.matcher(stringBuffer);
-
-                        while (mMatcher.find()) {
-                            maxpage = (Integer.parseInt(mMatcher.group(1)) / 60);
-                            System.out.println(maxpage);
-                        }
-                    }
-                    /////////////////
-
-                    Pattern pattern = Pattern.compile("<div class=\"js-product js-equalized js-addtolist-container js-ga\" data-product=\"(.+?)" + "\"");
-                    Matcher matcher = pattern.matcher(stringBuffer);
-                    int cnt = 0;
-
-                    while (matcher.find()) {
-                        Gson gson = new Gson();
-                        Product product = gson.fromJson(new JsonParser().parse(matcher.group(1)).getAsJsonObject(), Product.class);
-
-                        listProducts.add(product);
-                        cnt++;
-                    }
-
-                    System.out.println("job done with " + cnt + " products...........................................");
-                    //                System.out.println(stringBuffer.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                System.out.println(maxpage);
             }
+            ProductWebData productWebData = new ProductWebData(url);
+
+//        try {
+//            URL obj = new URL(url.getURL());
+//
+//            try {
+//                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+//
+//                connection.setRequestMethod("GET");
+//                int response = connection.getResponseCode();
+//
+//                BufferedReader bufferedReader = new BufferedReader(
+//                        new InputStreamReader(connection.getInputStream())
+//                );
+//
+//                String inputLine;
+//                StringBuffer stringBuffer = new StringBuffer();
+//
+//                while ((inputLine = bufferedReader.readLine()) != null) {
+//                    stringBuffer.append(inputLine).append("\n");
+//                }
+//                bufferedReader.close();
+
+            Pattern pattern = Pattern.compile("<div class=\"js-product js-equalized js-addtolist-container js-ga\" data-product=\"(.+?)" + "\"");
+            Matcher matcher = pattern.matcher(productWebData.getStringBuffer());
+            int cnt = 0;
+
+            while (matcher.find()) {
+                Gson gson = new Gson();
+                Product product = gson.fromJson(new JsonParser().parse(matcher.group(1)).getAsJsonObject(), Product.class);
+
+                listProducts.add(product);
+                cnt++;
+            }
+            System.out.println("job done with " + cnt + " products...........................................");
         }
+        //                System.out.println(stringBuffer.toString());
+
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
         return listProducts;
+    }
+
+    private int GetMaxPages(URLBuilder url) throws IOException {
+        Integer maxpage = 1;
+
+        productWebData = new ProductWebData(url);
+        Pattern mPattern = Pattern.compile("<p>\\n\\s*(.+?)\\s+?match");
+        Matcher mMatcher = mPattern.matcher(productWebData.getStringBuffer());
+
+        while (mMatcher.find()) {
+            maxpage = (Integer.parseInt(mMatcher.group(1)) / 60);
+            System.out.println(maxpage);
+        }
+
+        return maxpage;
     }
 
     @Override
