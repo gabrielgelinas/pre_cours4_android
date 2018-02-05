@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         ////////////////////
         try {
 //            HttpGet httpGet = new HttpGet(new URI(TEST_URL));
-            AsyncWebData task = new AsyncWebData(this,listProducts,list);
+            AsyncWebData task = new AsyncWebData(this, listProducts, list);
             task.execute(listProducts);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,13 +92,13 @@ public class MainActivity extends AppCompatActivity {
     private void initArrayList() {
         listProducts = new ListProducts();
 
-        listProducts.add(new Product());
-        listProducts.add(new Product("        KitKat", 5.10));
-        listProducts.add(new Product("Aero", 5.10));
-        listProducts.add(new Product("Crunchy", 5.10));
-        listProducts.add(new Product("Mr.Big", 5.10));
-        listProducts.add(new Product("Reeses", 5.10));
-        listProducts.add(new Product("M&M's", 5.10));
+//        listProducts.add(new Product());
+//        listProducts.add(new Product("        KitKat", 5.10));
+//        listProducts.add(new Product("Aero", 5.10));
+//        listProducts.add(new Product("Crunchy", 5.10));
+//        listProducts.add(new Product("Mr.Big", 5.10));
+//        listProducts.add(new Product("Reeses", 5.10));
+//        listProducts.add(new Product("M&M's", 5.10));
     }
 
     public void AddProd(View view) {
@@ -172,6 +174,16 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void ProdsToConsole() {
+        for (Product p :
+                listProducts) {
+            System.out.println(
+                    "ID: " + p.getProductId() + " \t\t Name:" +
+                            p.getName()
+            );
         }
     }
 }

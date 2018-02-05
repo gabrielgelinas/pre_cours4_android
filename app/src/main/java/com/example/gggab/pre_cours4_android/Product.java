@@ -15,6 +15,7 @@ public class Product {
     private Double RegularPrice;
     private String PromotionName;
     private Double SalesPrice;
+
     //{'ProductId':'00000_000000004905846692','BrandName':'Diva','FullDisplayName':' Endives',
 // 'IsAgeRequired':false,'SizeLabel':'','Size':'','ProductUrl':'/en/product/endives/00000_000000004905846692',
 // 'ProductImageUrl':'https://az836796.vo.msecnd.net/media/image/product/en/medium/0004905846692.jpg',
@@ -24,8 +25,8 @@ public class Product {
     }
 
     Product(String name, Double regularPrice) {
-        FullDisplayName=name;
-        RegularPrice=regularPrice;
+        FullDisplayName = name;
+        RegularPrice = regularPrice;
         cnt++;
     }
 
@@ -41,24 +42,19 @@ public class Product {
         setProductImageUrl(productImageUrl);
         setHasNewPrice(hasNewPrice);
         setRegularPrice(regularPrice);
-        if (promotionName!=null) {
+        if (promotionName != null) {
             setPromotionName(promotionName);
-        }else {
+        } else {
             setPromotionName("");
 
         }
-        if (salesPrice!=null) {
+        if (salesPrice != null) {
             setSalesPrice(salesPrice);
-        }else {
+        } else {
             setSalesPrice(0.0);
         }
         cnt++;
     }
-//{'ProductId':'00000_000000004905846692','BrandName':'Diva','FullDisplayName':' Endives',
-// 'IsAgeRequired':false,'SizeLabel':'','Size':'','ProductUrl':'/en/product/endives/00000_000000004905846692',
-// 'ProductImageUrl':'https://az836796.vo.msecnd.net/media/image/product/en/medium/0004905846692.jpg',
-// 'HasNewPrice':false,'PromotionName':null,'RegularPrice':3.49000,'SalesPrice':null}"
-
 
     public String getProductId() {
         return ProductId;
@@ -133,7 +129,7 @@ public class Product {
     }
 
     Double getRegularPrice() {
-            return RegularPrice;
+        return RegularPrice;
     }
 
     private void setRegularPrice(Double regularPrice) {
