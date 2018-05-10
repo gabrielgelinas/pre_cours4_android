@@ -46,34 +46,33 @@ public class MainActivity extends AppCompatActivity {
 
         FetchWebData(list);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    Toast.makeText(getApplicationContext(), "You clicked on: " + ((TextView) view.findViewById(R.id.name)).getText().toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    return false;
-                } else {
-                    //                        URL productURL = new URL("https://www.iga.net" + listProducts.get(position).getProductUrl());
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.iga.net" + listProducts.get(position).getProductUrl()));
-
-                    startActivity(browserIntent);
-
-                    return false;
-                }
-            }
-        });
+//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position != 0) {
+//                    Toast.makeText(getApplicationContext(), "You clicked on: " + ((TextView) view.findViewById(R.id.name)).getText().toString(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//
+//        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position == 0) {
+//                    return false;
+//                } else {
+//                    //                        URL productURL = new URL("https://www.iga.net" + listProducts.get(position).getProductUrl());
+//                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.iga.net" + listProducts.get(position).getProductUrl()));
+//
+//                    startActivity(browserIntent);
+//
+//                    return false;
+//                }
+//            }
+//        });
     }
 
     private void FetchWebData(ListView list) {
-
         ////////////////////
         // Test AsyncTask //
         ////////////////////
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         int page = 1;
         int maxpage;
 
-        URLBuilder url = new URLBuilder(page, "https://www.iga.net/en/search?page=", "&pageSize=60");
+        URLBuilder url = new URLBuilder("https://www.iga.net/en/search?page=", page, "&pageSize=60");
 
         try {
             URL obj = new URL(url.getURL());

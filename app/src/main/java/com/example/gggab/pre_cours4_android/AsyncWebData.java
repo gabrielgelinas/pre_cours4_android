@@ -74,12 +74,12 @@ class AsyncWebData extends AsyncTask<ListProducts, Integer, ListProducts[]> {
 
         for (pagesLoading = 1; pagesLoading <= maxpage; pagesLoading++) {
             publishProgress(pagesLoading);
-            URLBuilder url = new URLBuilder(maxpage, "https://www.iga.net/en/search?page=", "&pageSize=60");
+            URLBuilder url = new URLBuilder("https://www.iga.net/en/search?page=", pagesLoading, "&pageSize=60");
             if (maxpage == 1) {
                 maxpage = GetMaxPages(url);
 
                 System.out.println(maxpage);
-                maxpage = 10;
+                maxpage = 1;
             }
             ProductWebData productWebData = new ProductWebData(url);
 //        try {
@@ -107,6 +107,7 @@ class AsyncWebData extends AsyncTask<ListProducts, Integer, ListProducts[]> {
             cnt = 0;
             while (matcher.find()){
                 listProducts.add(GetProductFromRgx((matcher.group(1))));
+                System.out.println(matcher.group(1));
                 cnt++;
             }
             System.out.println("Page " + maxpage + " done with " + cnt + " products...........................................");

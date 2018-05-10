@@ -39,6 +39,7 @@ class ProductWebData {
         }
         bufferedReader.close();
 
+
         return stringBuffer;
     }
 }
